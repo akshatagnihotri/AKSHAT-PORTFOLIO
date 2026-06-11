@@ -5,7 +5,7 @@ export const personalInfo = {
   email: "akshatagnihotri2001@gmail.com",
   phone: "+91-9098451248",
   linkedin: "https://www.linkedin.com/in/akshat-agnihotri/",
-  github: "https://github.com/akshat-agnihotri",
+  github: "https://github.com/akshatagnihotri/AKSHAT-PORTFOLIO",
   location: "India",
 };
 
@@ -133,7 +133,7 @@ export const projects = [
     gradient: "from-indigo-500 via-purple-500 to-pink-500",
     category: "AI",
     demo: "#",
-    github: "https://github.com/akshat-agnihotri",
+    github: "https://github.com/akshatagnihotri/AKSHAT-PORTFOLIO",
     icon: "🧠",
   },
   {
@@ -153,7 +153,7 @@ export const projects = [
     gradient: "from-blue-500 via-cyan-500 to-teal-500",
     category: "ML",
     demo: "#",
-    github: "https://github.com/akshat-agnihotri",
+    github: "https://github.com/akshatagnihotri/AKSHAT-PORTFOLIO",
     icon: "🏠",
   },
   {
@@ -173,7 +173,7 @@ export const projects = [
     gradient: "from-orange-500 via-amber-500 to-yellow-500",
     category: "Analytics",
     demo: "#",
-    github: "https://github.com/akshat-agnihotri",
+    github: "https://github.com/akshatagnihotri/AKSHAT-PORTFOLIO",
     icon: "🗳️",
   },
   {
@@ -193,7 +193,7 @@ export const projects = [
     gradient: "from-emerald-500 via-green-500 to-lime-500",
     category: "Development",
     demo: "#",
-    github: "https://github.com/akshat-agnihotri",
+    github: "https://github.com/akshatagnihotri/AKSHAT-PORTFOLIO",
     icon: "🏢",
   },
 ];
