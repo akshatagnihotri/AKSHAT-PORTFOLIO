@@ -11,28 +11,30 @@ const CATEGORIES = ["All", "AI", "ML", "Analytics", "Development"];
 
 export default function Projects() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 });
-  const [filter, setFilter] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("All");
 
   const filtered =
-    filter === "All" ? projects : projects.filter((p) => p.category === filter);
+    activeCategory === "All"
+      ? projects
+      : projects.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="projects" className="relative py-28 overflow-hidden" ref={ref}>
+    <section id="projects" className="relative py-24 overflow-hidden" ref={ref}>
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 70% 50% at 30% 60%, rgba(99,102,241,0.08) 0%, transparent 60%), #0a0a0f",
+            "radial-gradient(ellipse 60% 60% at 20% 50%, rgba(99,102,241,0.07) 0%, transparent 60%), #0a0a0f",
         }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <span className="text-indigo-400 text-sm font-semibold tracking-widest uppercase mb-3 block">
             What I&apos;ve Built
@@ -46,30 +48,29 @@ export default function Projects() {
           />
         </motion.div>
 
-        {/* Filter buttons */}
+        {/* Category Filter */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="flex flex-wrap justify-center gap-2 mb-10"
         >
           {CATEGORIES.map((cat) => (
             <motion.button
               key={cat}
-              onClick={() => setFilter(cat)}
+              onClick={() => setActiveCategory(cat)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                filter === cat
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                activeCategory === cat
                   ? "text-white"
                   : "glass text-slate-400 hover:text-white border border-white/5"
               }`}
               style={
-                filter === cat
+                activeCategory === cat
                   ? {
-                      background:
-                        "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                      boxShadow: "0 0 20px rgba(99,102,241,0.4)",
+                      background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                      boxShadow: "0 0 20px rgba(99,102,241,0.3)",
                     }
                   : {}
               }
@@ -79,135 +80,110 @@ export default function Projects() {
           ))}
         </motion.div>
 
-        {/* Projects grid */}
-        <AnimatePresence mode="wait">
+        {/* Project Cards Grid */}
+        <AnimatePresence mode="popLayout">
           <motion.div
-            key={filter}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid md:grid-cols-2 gap-6"
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6"
           >
             {filtered.map((project, i) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                whileHover={{ y: -6 }}
-                className="group relative glass rounded-3xl overflow-hidden border border-white/5 hover:border-indigo-500/30 transition-all duration-400"
+                layout
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                whileHover={{ y: -4 }}
+                className="glass rounded-2xl overflow-hidden border border-white/5 hover:border-indigo-500/25 transition-all duration-300 flex flex-col"
               >
-                {/* Gradient header */}
+                {/* Gradient banner */}
                 <div
-                  className={`h-2 bg-gradient-to-r ${project.gradient}`}
+                  className={`h-2 bg-gradient-to-r ${project.gradient} w-full flex-shrink-0`}
                 />
 
-                {/* Hover glow */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: `radial-gradient(ellipse at top left, ${
-                      project.gradient.includes("indigo")
-                        ? "rgba(99,102,241,0.08)"
-                        : project.gradient.includes("blue")
-                        ? "rgba(59,130,246,0.08)"
-                        : project.gradient.includes("orange")
-                        ? "rgba(249,115,22,0.08)"
-                        : "rgba(16,185,129,0.08)"
-                    } 0%, transparent 60%)`,
-                  }}
-                />
-
-                <div className="p-7">
-                  {/* Project icon & title */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl">{project.icon}</span>
-                      <div>
-                        <h3 className="text-xl font-bold text-white">
-                          {project.title}
-                        </h3>
-                        <p className="text-slate-500 text-sm">
-                          {project.subtitle}
-                        </p>
-                      </div>
+                <div className="p-5 sm:p-6 flex flex-col h-full">
+                  {/* Icon + title row */}
+                  <div className="flex items-start gap-4 mb-3">
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+                      style={{ background: "rgba(255,255,255,0.05)" }}
+                    >
+                      {project.icon}
                     </div>
-                    <span className="text-xs glass px-2.5 py-1 rounded-lg border border-white/5 text-slate-400">
-                      {project.category}
-                    </span>
+                    <div className="min-w-0">
+                      <h3 className="text-base font-bold text-white leading-tight">
+                        {project.title}
+                      </h3>
+                      <p className="text-indigo-400 text-xs mt-0.5 leading-snug">
+                        {project.subtitle}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Highlight badge */}
+                  <div
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium mb-3 self-start"
+                    style={{
+                      background: "rgba(99,102,241,0.12)",
+                      color: "#a5b4fc",
+                    }}
+                  >
+                    <Sparkles size={11} />
+                    {project.highlight}
                   </div>
 
                   {/* Description */}
-                  <p className="text-slate-400 text-sm leading-relaxed mb-5">
+                  <p className="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
                     {project.description}
                   </p>
 
-                  {/* Highlight badge */}
-                  <div className="flex items-center gap-2 mb-5 p-3 rounded-xl bg-indigo-500/8 border border-indigo-500/15">
-                    <Sparkles size={12} className="text-indigo-400 flex-shrink-0" />
-                    <span className="text-indigo-300 text-xs font-medium">
-                      {project.highlight}
-                    </span>
-                  </div>
-
-                  {/* Features */}
-                  <div className="flex flex-wrap gap-2 mb-5">
+                  {/* Feature chips */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
                     {project.features.map((f) => (
                       <span
                         key={f}
-                        className="text-xs px-2.5 py-1 rounded-lg"
-                        style={{
-                          background: "rgba(255,255,255,0.04)",
-                          color: "#94a3b8",
-                          border: "1px solid rgba(255,255,255,0.06)",
-                        }}
+                        className="px-2 py-0.5 rounded-md text-xs bg-white/4 text-slate-400 border border-white/5"
                       >
-                        ✓ {f}
+                        {f}
                       </span>
                     ))}
                   </div>
 
                   {/* Tech stack */}
-                  <div className="flex flex-wrap gap-1.5 mb-6">
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {project.tech.map((t) => (
                       <span
                         key={t}
-                        className="text-xs px-2.5 py-1 rounded-md font-medium"
-                        style={{
-                          background: "rgba(99,102,241,0.12)",
-                          color: "#a5b4fc",
-                          border: "1px solid rgba(99,102,241,0.2)",
-                        }}
+                        className="px-2.5 py-1 rounded-lg text-xs font-medium glass border border-indigo-500/15 text-indigo-300"
                       >
                         {t}
                       </span>
                     ))}
                   </div>
 
-                  {/* Action buttons */}
-                  <div className="flex gap-3">
+                  {/* Actions */}
+                  <div className="flex gap-2 mt-auto">
                     <motion.a
                       href={project.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-white transition-all"
                       style={{
-                        background:
-                          "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
                       }}
                     >
-                      <ExternalLink size={14} />
-                      Live Demo
+                      <ExternalLink size={13} />
+                      Demo
                     </motion.a>
                     <motion.a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-slate-300 glass border border-white/10 hover:border-white/20 transition-all"
                     >
                       <FaGithub size={13} />

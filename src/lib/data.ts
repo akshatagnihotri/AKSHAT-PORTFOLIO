@@ -4,7 +4,7 @@ export const personalInfo = {
   tagline: "Transforming data into actionable insights through analytics, machine learning, and AI-powered solutions.",
   email: "akshatagnihotri2001@gmail.com",
   phone: "+91-9098451248",
-  linkedin: "https://www.linkedin.com/in/akshat-agnihotri/",
+  linkedin: "https://www.linkedin.com/in/akshatagnihotri-data-analyst",
   github: "https://github.com/akshatagnihotri/AKSHAT-PORTFOLIO",
   location: "India",
 };
